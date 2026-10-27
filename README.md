@@ -7,7 +7,7 @@
 Loki is a set of eight `SKILL.md` files for [Claude Code](https://docs.claude.com/en/docs/claude-code)
 (portable to any harness that reads skills). You bring a dump of notes,
 data, and reference files; loki brings a storyline compiler, chart specs
-with element checklists, Seedream-generated figures, a conductor/worker
+with element checklists, generated figures (Seedream or Qwen-Image/Wan), a conductor/worker
 build, and a six-pass review that inspects the rendered pixels.
 
 ## Why this exists
@@ -79,7 +79,7 @@ a terminal state with zero interruptions.
 | `loki-mobius` | Ingest reference files by role — exemplars, materials, visual anchors — before compose |
 | `loki-storyline` | Compile dump → beat sheet + action-title ladder; memo test and connective test as hard gates |
 | `loki-exhibit` | One spec per chart: message, form, data CSV, 10-point element checklist, neutrality test |
-| `loki-figure` | Seedream 5.0 Pro / 5.0 Lite / 4.5 imagery with a locked style block and reference-chained consistency |
+| `loki-figure` | Seedream (BytePlus ModelArk) or Qwen-Image / Wan (Alibaba Model Studio) imagery with a locked style block and reference-chained consistency |
 | `loki-build` | Conductor/worker build in waves; title immutability; semantic shape names; overflow = error |
 | `loki-uatu` | Visual QA: deterministic geometry lint + region-crop vision rubric + deck gestalt |
 | `loki-deckreview` | Six passes: memo/flow, visual (uatu), grounding, slop, story beats, cold read of the whole deck |
@@ -124,17 +124,30 @@ cp -r skills/* ~/.claude/skills/
 cp -r skills/* <your-deck-project>/.claude/skills/
 ```
 
-**3. Seedream key** (only needed for generated figures)
+**3. Image key** (only needed for generated figures — pick one provider)
 
-Get an API key from [BytePlus ModelArk](https://www.byteplus.com/en/product/modelark),
-then:
+loki-figure uses whichever key it finds, in the shell or in the project's
+`.env`; set `LOKI_PROVIDER=ark|modelstudio` if both are present.
+
+*Option A — BytePlus ModelArk (Seedream).* Get a key from
+[BytePlus ModelArk](https://www.byteplus.com/en/product/modelark), then:
 
 ```bash
 export ARK_API_KEY=...
 # optional overrides
-export ARK_BASE_URL=https://ark.ap-southeast.bytepluses.com/api/v3
+export LOKI_HOST=https://ark.ap-southeast.bytepluses.com/api/v3
 export LOKI_MODEL=dola-seedream-5-0-pro-260628   # 5.0 Pro (default)
 # alternatives: seedream-5-0-lite (drafts, 4K) · seedream-4-5-251128 (edits)
+```
+
+*Option B — Alibaba Cloud Model Studio (Qwen-Image / Wan), incl. the token plan.*
+Get a key from [Model Studio](https://www.alibabacloud.com/en/product/modelstudio), then:
+
+```bash
+export DASHSCOPE_API_KEY=...       # alias: modelstudio_aliyun_token_plan
+# default host is the international token plan; pay-as-you-go instead:
+export LOKI_HOST=https://dashscope-intl.aliyuncs.com
+# models: qwen-image-3.0-pro (hero, edits) · wan2.7-image-pro (reference-chained figures)
 ```
 
 An all-exhibit deck needs no key at all.
@@ -234,7 +247,7 @@ going fire-and-forget.
 |---|---|---|
 | **exemplar** | "learn how we present" | Distills title voice, rhythm, anatomy, real theme palette into `refs/house-style.md` — imitates the register, never the diseases (topic titles stay banned) |
 | **material** | "part of this story, not yet narrative" | Decomposes into claims and `[D#]` numbers with provenance and as-of dates; real photos placed as-is, never regenerated |
-| **visual-anchor** | "carry this look" | Chart conventions → STYLE tokens; doodles/figures → Seedream references seeding the hero itself |
+| **visual-anchor** | "carry this look" | Chart conventions → STYLE tokens; doodles/figures → image-model references seeding the hero itself |
 
 One file can hold two roles; declare both.
 
@@ -285,7 +298,8 @@ your-deck-project/
 ## Status
 
 Young toolkit, opinions fully loaded. The skill logic is exercised; the
-Seedream script is a template — dry-run it once in your environment before
+figure script is verified end-to-end on the Model Studio token plan; the
+ModelArk path is a template — dry-run it once in your environment before
 trusting a batch. Build mechanics delegate to whatever pptx engine your
 harness provides. Issues and PRs welcome; keep skills lean and slop-free.
 
@@ -294,7 +308,7 @@ harness provides. Issues and PRs welcome; keep skills lean and slop-free.
 Barbara Minto (Pyramid Principle, SCQA) · Gene Zelazny (*Say It With
 Charts*) · Trey Parker & Matt Stone (the but/therefore rule) · Peter
 Yang's [no-ai-slop](https://github.com/petergyang/no-ai-slop) ·
-ByteDance Seedream.
+ByteDance Seedream · Alibaba Qwen-Image / Wan.
 
 Composes with the core **pstack** toolkit (dump discipline, no-ai-slop,
 ADR habits) but runs standalone — no pstack required.

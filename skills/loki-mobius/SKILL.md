@@ -18,7 +18,7 @@ quietly becomes the storyline template; Mobius never guesses.
 |---|---|---|---|
 | **exemplar** | "learn how we present" — style, storytelling, how slides are written | Title grammar, narrative rhythm, slide anatomy, register, palette/fonts | `refs/house-style.md` → storyline voice, STYLE.md, build conventions |
 | **material** | "part of the story to be told, not yet in narrative form" | Claims, numbers with provenance, reusable assets, speaker points — as FRAGMENTS | Appended to `dump.md` + `[D#]` inventory + `refs/assets/` |
-| **visual-anchor** | "carry this look through the deck" — charts, figures, doodles | Chart styling tokens; reference images for Seedream | STYLE.md chart tokens; `refs/visual-anchors/` → loki-figure's reference chain |
+| **visual-anchor** | "carry this look through the deck" — charts, figures, doodles | Chart styling tokens; reference images for loki-figure | STYLE.md chart tokens; `refs/visual-anchors/` → loki-figure's reference chain |
 
 One file can hold two roles (a past deck that is both exemplar and material)
 — declare both; each extraction runs.
@@ -73,7 +73,7 @@ is compose's monopoly, so Mobius outputs inventory, not prose:
   staleness against the new deck's date.
 - **Reusable assets** (photos, existing diagrams worth keeping) copied to
   `refs/assets/` with captions. Real photographs and real diagrams are
-  placed AS-IS by loki-build — never regenerated through Seedream; the
+  placed AS-IS by loki-build — never regenerated through the image model; the
   figure skill is for generated imagery only.
 - **Speaker points** worth preserving, as bullets with source refs.
 
@@ -90,7 +90,7 @@ Two sub-types, two destinations:
   their token source. Anchor the *drawing conventions*, never the data.
 - **Figure/doodle examples** → copy to `refs/visual-anchors/`, write one
   descriptor line each (what about it must carry: linework, palette, mood),
-  and fold the descriptors into the Seedream STYLE_BLOCK. loki-figure
+  and fold the descriptors into the loki-figure STYLE_BLOCK. loki-figure
   passes the anchor images as references alongside the approved hero —
   budget the 10-reference cap as hero + 2–3 anchors. A doodle on paper is
   a legitimate anchor: photograph it, anchor it, let 5.0 Pro carry its
