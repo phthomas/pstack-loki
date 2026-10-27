@@ -18,6 +18,7 @@ Refuse to build until ALL hold, and say which failed:
 2. Every `visual: exhibit` row has a spec + CSV from loki-exhibit.
 3. Every `visual: figure` row has an approved asset from loki-figure.
 4. `STYLE.md` exists.
+5. The `clarity` skill is installed — every slide's words pass through it.
 
 Building on a soft storyline is how the old failure mode returns; the gate is
 the point.
@@ -62,6 +63,33 @@ its structure is not a style choice.
 **Ask slide** — decision / owner / date, verbatim from the frame. Nothing
 else competes for attention on it.
 
+## Words on the slide — clarity pass
+
+Titles, kickers, and annotations arrive already clarity-edited and frozen;
+render them verbatim. Everything else a worker writes — divider promise
+lines, body bullets, options-matrix cells, footnotes, speaker notes — goes
+through **clarity** before it is rendered:
+
+1. **Worker draft.** Write the slide's text from the storyline row and spec.
+2. **Clarity rewrite, per slide, with the full storyline as context.**
+   Medium: speech, talk, slides (notes are speech; slide text is read in a
+   glance). Register from the act: Argument for Stakes and High Noon,
+   Guide for The New Order's plan, Message for the ask. Constraints: the
+   frozen title is the thesis the text must serve — reuse its nouns; every
+   number stays a CSV transcription; FACT/EST/BELIEF framing is preserved.
+3. **Conductor coherence read, per wave.** Concatenate the wave's slide
+   text in order and run clarity in **review** mode against the previous
+   waves' text: terminology drift (one concept, one name, deck-wide),
+   register breaks, and repeated openers across slides. `revise`/`cut`
+   verdicts on renders are fixed in-wave; `ask-author` verdicts are claim
+   gaps → FLAG.
+
+Clarity never edits a title, kicker, or annotation in build. If its review
+says one reads badly, that is a FLAG to the conductor → loki-storyline or
+loki-exhibit, the same as any other belief that a claim is wrong. And
+clarity's output still has to fit: shorter is the usual result, but if a
+rewrite overflows, split or FLAG — never shrink.
+
 ## Engine mechanics
 
 Delegate the *how* to whatever pptx engine the environment provides:
@@ -100,8 +128,8 @@ Build rules regardless of engine:
 
 ## Speaker notes = the voiceover
 
-Each worker writes 2–4 sentences of speaker notes per slide: what the
-presenter says, INCLUDING the spoken transition that begins with the ladder's
+Each worker writes 2–4 sentences of speaker notes per slide (clarity-edited
+as speech, above): what the presenter says, INCLUDING the spoken transition that begins with the ladder's
 connective ("…but here's what the campaigns couldn't fix" / "therefore the
 question becomes…"). Two jobs: the presenter's script, and review's flow
 evidence — if the voiceover transition feels forced, the ladder junction is

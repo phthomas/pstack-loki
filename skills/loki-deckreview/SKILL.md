@@ -1,6 +1,6 @@
 ---
 name: loki-deckreview
-description: Render every slide of a built deck to images and run six review passes (memo/flow, visual via loki-uatu, number grounding, slop lexicon, story beats, and a cold read of the entire rendered deck in sequence), producing severity-tagged findings routed to the responsible upstream stage. Use whenever a deck.pptx exists and needs QA, whenever the user says "review the deck", "check the slides", "QA", "does the narrative hold", or before any deck ships. This is the mandatory final loki gate — a deck that hasn't passed deckreview is a draft, not a deliverable.
+description: Render every slide of a built deck to images and run six review passes (memo/flow, visual via loki-uatu, number grounding, clarity review + slop lexicon, story beats, and a cold read of the entire rendered deck in sequence), producing severity-tagged findings routed to the responsible upstream stage. Use whenever a deck.pptx exists and needs QA, whenever the user says "review the deck", "check the slides", "QA", "does the narrative hold", or before any deck ships. This is the mandatory final loki gate — a deck that hasn't passed deckreview is a draft, not a deliverable.
 ---
 
 # loki-deckreview
@@ -56,11 +56,23 @@ or a `[D#]` dump reference. Rounding must match the spec's stated precision.
 BELIEF framing survived the build: an EST presented with FACT confidence is
 a grounding failure even if the number itself is right.
 
-**Pass 4 — Slop.** Scan all slide text and notes against the no-ai-slop
-lexicon (unlock, leverage, journey, robust, holistic, empower,
-transformative, delve, synergy, "in today's fast-paced…"). Titles were
-linted at storyline; this catches slop that crept in through body text,
-kickers, and notes during build.
+**Pass 4 — Clarity.** Extract all slide text and notes in slide order and
+invoke the **clarity** skill twice:
+
+1. **Lint mode** — clarity's `strip_markdown.py` + `prose_stats.py` over the
+   extracted text. Diagnostics locate habits (hedge/booster clusters, repeated
+   openers); they are prompts to read in context, never scores to optimize.
+2. **Review mode** — medium: speech, talk, slides; reader: the cold-read
+   audience. Clarity marks lines `keep` / `revise` / `ask-author` / `cut`.
+
+Also scan against the no-ai-slop lexicon (unlock, leverage, journey, robust,
+holistic, empower, transformative, delve, synergy, "in today's fast-paced…").
+Map verdicts into findings: `revise`/`cut` on body text, notes, or matrix
+cells → SEV-2 (readability) or SEV-3 (polish), route **loki-build**; any
+verdict on a title, kicker, or annotation → route **loki-storyline** or
+**loki-exhibit** (claims — never auto-fixed); `ask-author` → a claim gap,
+route to the human. Terminology drift across slides (one concept, two names)
+is SEV-2: it breaks coherence for a reader with no presenter to translate.
 
 **Pass 5 — Story.** Judgment pass against the beat sheet: Does the Cold Open
 wound within the first slide, or does throat-clearing precede it? Does each
@@ -112,8 +124,9 @@ cold read.
   content inside a generated figure, fake/strawman option at High Noon,
   title↔body mismatch from the cold read.
 - **SEV-2:** emphasis or neutrality failures, weak junctions, contrast
-  issues, EST/BELIEF framing softness.
-- **SEV-3:** polish — spacing, wording, figure grading.
+  issues, EST/BELIEF framing softness, clarity `revise` on load-bearing
+  text, terminology drift.
+- **SEV-3:** polish — spacing, minor clarity `revise`/`cut`, figure grading.
 
 ## Exit criteria
 

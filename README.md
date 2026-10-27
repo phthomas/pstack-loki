@@ -2,7 +2,8 @@
 
 > McKinsey rigor for the argument, Western-series storytelling for the arc.
 > A skill toolkit that compiles rough notes into persuasive, grounded
-> PowerPoint decks — one human gate, then an autonomous run.
+> PowerPoint decks — one human gate, then an autonomous run. Every word on
+> every slide passes through [clarity](https://github.com/addyosmani/clarity).
 
 Loki is a set of eight `SKILL.md` files for [Claude Code](https://docs.claude.com/en/docs/claude-code)
 (portable to any harness that reads skills). You bring a dump of notes,
@@ -36,7 +37,7 @@ reference files ──► [loki-mobius] ──► house-style · [D#] fragments 
 dump.md ◄─────────────────────┘
    │
    ▼                                COMPOSE
-[loki-storyline] ──► storyline.md (frozen) + STYLE.md
+[loki-storyline] ──► storyline.md (clarity-edited, frozen) + STYLE.md
    ├──► [loki-exhibit] ──► exhibits/E##.spec.md + data/E##.csv
    └──► [loki-figure]  ──► hero candidates
    │
@@ -77,12 +78,12 @@ a terminal state with zero interruptions.
 | Skill | Job |
 |---|---|
 | `loki-mobius` | Ingest reference files by role — exemplars, materials, visual anchors — before compose |
-| `loki-storyline` | Compile dump → beat sheet + action-title ladder; memo test and connective test as hard gates |
-| `loki-exhibit` | One spec per chart: message, form, data CSV, 10-point element checklist, neutrality test |
+| `loki-storyline` | Compile dump → beat sheet + action-title ladder; clarity pass on the whole ladder; memo test and connective test as hard gates |
+| `loki-exhibit` | One spec per chart: message, form, data CSV, clarity-edited kicker and annotation, 10-point element checklist, neutrality test |
 | `loki-figure` | Seedream (BytePlus ModelArk) or Qwen-Image / Wan (Alibaba Model Studio) imagery with a locked style block and reference-chained consistency |
-| `loki-build` | Conductor/worker build in waves; title immutability; semantic shape names; overflow = error |
+| `loki-build` | Conductor/worker build in waves; title immutability; clarity on body text and notes; semantic shape names; overflow = error |
 | `loki-uatu` | Visual QA: deterministic geometry lint + region-crop vision rubric + deck gestalt |
-| `loki-deckreview` | Six passes: memo/flow, visual (uatu), grounding, slop, story beats, cold read of the whole deck |
+| `loki-deckreview` | Six passes: memo/flow, visual (uatu), grounding, clarity review + slop, story beats, cold read of the whole deck |
 | `loki-tva` | Orchestrator: compose → one triage gate → autonomous execute → SHIPPED/BLOCKED |
 
 ## Installation
@@ -91,6 +92,9 @@ a terminal state with zero interruptions.
 
 - [Claude Code](https://docs.claude.com/en/docs/claude-code) (or another
   harness that reads `SKILL.md` skills)
+- **[clarity](https://github.com/addyosmani/clarity)** — required. Loki hands
+  every title, kicker, annotation, body line, and speaker note to it; loki-tva
+  refuses to run without it
 - Python 3.10+ with `python-pptx` (uatu's geometry lint, title extraction)
 - LibreOffice + poppler (`pdftoppm`) — slide rendering for review
 - ImageMagick — crops, thumbnails, contact sheets
@@ -122,6 +126,9 @@ cp -r skills/* ~/.claude/skills/
 
 # or per-project
 cp -r skills/* <your-deck-project>/.claude/skills/
+
+# required dependency: clarity (same scope as loki)
+npx skills add addyosmani/clarity
 ```
 
 **3. Image key** (only needed for generated figures — pick one provider)
@@ -156,6 +163,7 @@ An all-exhibit deck needs no key at all.
 
 ```bash
 ls ~/.claude/skills | grep -c '^loki-'   # → 8
+ls ~/.claude/skills/clarity/SKILL.md     # clarity present
 soffice --version && pdftoppm -v && magick -version
 python -c "import pptx"
 ```
@@ -279,6 +287,12 @@ your-deck-project/
 
 ## Design decisions
 
+- **Loki owns the claims; clarity owns the words.** Clarity edits wording
+  before titles freeze — the whole ladder as one piece, so terminology and
+  register hold across slides — and edits body text and notes during build.
+  It never changes a number, a citation, or a claim's strength; where a
+  better line needs a fact only the author has, it asks (`[TK]`) and the
+  question lands in the triage packet.
 - **One gate, not many.** All judgment front-loads into a single triage
   sitting; execution never negotiates with a signed-off blueprint. When
   the bet loses, the run blocks loudly instead of drifting.
@@ -308,6 +322,7 @@ harness provides. Issues and PRs welcome; keep skills lean and slop-free.
 Barbara Minto (Pyramid Principle, SCQA) · Gene Zelazny (*Say It With
 Charts*) · Trey Parker & Matt Stone (the but/therefore rule) · Peter
 Yang's [no-ai-slop](https://github.com/petergyang/no-ai-slop) ·
+Addy Osmani's [clarity](https://github.com/addyosmani/clarity) ·
 ByteDance Seedream · Alibaba Qwen-Image / Wan.
 
 Composes with the core **pstack** toolkit (dump discipline, no-ai-slop,

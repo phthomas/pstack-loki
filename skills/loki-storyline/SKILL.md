@@ -1,6 +1,6 @@
 ---
 name: loki-storyline
-description: Compile a dump.md into a frozen presentation storyline (beat sheet + action-title ladder) before any slide is built. Use this whenever the user wants to start a deck, presentation, or slides from a dump, mentions "storyline", "narrative", "title ladder", "loki", or asks why a deck doesn't flow. This is ALWAYS the first loki step — if a user asks to "build the deck" and no frozen storyline.md exists, run this skill first, even if they didn't ask for it.
+description: Compile a dump.md into a frozen presentation storyline (beat sheet + action-title ladder, edited for readability with the clarity skill) before any slide is built. Use this whenever the user wants to start a deck, presentation, or slides from a dump, mentions "storyline", "narrative", "title ladder", "loki", or asks why a deck doesn't flow. This is ALWAYS the first loki step — if a user asks to "build the deck" and no frozen storyline.md exists, run this skill first, even if they didn't ask for it.
 ---
 
 # loki-storyline
@@ -16,7 +16,11 @@ build a single slide until the gate at Step 5 passes.
 - **Input:** `dump.md` (required). Refuse politely if absent — the muscle
   memory is brainstorm → dump → loki, never loki from a blank page.
 - **Output:** `storyline.md` (frozen, versioned) and `STYLE.md`.
-- **Gate:** the memo test AND the connective test (Step 5) both pass.
+- **Gate:** the memo test AND the connective test (Step 5) both pass, run on
+  the clarity-edited ladder (Step 4b).
+- **Depends on:** the `clarity` skill. Loki writes the claims; clarity makes
+  the words carrying them readable. If clarity is not installed, stop and say
+  so — a ladder that skipped it is unfinished.
 
 ## Step 0 — Dump gate
 
@@ -99,6 +103,7 @@ S## | Act | TITLE (action sentence) | message detail | evidence [D#/E##] | visua
 6. **No slop lexicon.** Run the no-ai-slop list: unlock, leverage, journey,
    robust, holistic, empower, transformative, landscape, delve, synergy…
    Slogans love to masquerade as action titles; this rule is the costume check.
+   The clarity pass (Step 4b) catches the subtler patterns the list misses.
 7. **Tagged for epistemic status:** FACT (in the data inventory), EST
    (estimate — show the method), BELIEF (judgment — disclose it as such).
    The High Noon recommendation must rest on FACT+EST; BELIEFs may appear but
@@ -142,6 +147,36 @@ Walk the ladder. Every FACT title must cite `[D#]`. Any claim with no evidence
 gets one of three fates: find the data (add to dump), demote to EST/BELIEF
 with disclosure, or cut the slide. A persuasive deck that isn't grounded is a
 loan against your credibility at a terrible rate.
+
+## Step 4b — Clarity pass
+
+Invoke the **clarity** skill in **rewrite** mode on the frame (belief shift,
+controlling idea, ask) and the full title ladder, as ONE piece in slide
+order — never title by title. Coherence is a property of the sequence: one
+term per concept, one register, each title picking up where the last left
+off. A per-title pass optimizes each line and loses the thread.
+
+Brief clarity with:
+
+- **Medium:** speech, talk, slides (its `references/medium.md` row) —
+  listening comprehension, memorable evidence, oral rhythm.
+- **Register:** Argument. The ladder owes a supported position.
+- **Reader and outcome:** the audience and belief shift from Step 1.
+- **Voice sample:** `refs/house-style.md` where it exists, else the
+  author's own phrasing in `dump.md`. The sample outranks clarity's defaults.
+- **Hard constraints (claims are not clarity's to change):** every number,
+  noun, `[D#]`/`E##` citation, FACT/EST/BELIEF tag, and connective survives
+  verbatim in meaning; ≤ ~14 words per title; complete sentence with a verb.
+
+Clarity may tighten wording, unify terminology, swap a vague verb for a
+precise one, and cut throat-clearing. It may not strengthen a claim, soften
+an EST into a FACT, or invent a specific. When a better title needs a fact
+only the author has, clarity marks `[TK: question]` — that becomes a dump-gate
+question for the human, never a guess. One pass, one self-review, stop:
+clarity's own rule, and repeated passes flatten titles into sameness.
+
+Re-run the Step 3 lint on the output (clarity can lengthen a title while
+making it clearer), then proceed to the memo test.
 
 ## Step 5 — The memo test (GATE)
 

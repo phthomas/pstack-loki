@@ -51,6 +51,7 @@ First match wins:
 
 | Condition on disk | State | Action |
 |---|---|---|
+| `clarity` skill not installed (`.claude/skills/clarity/SKILL.md` or `~/.claude/skills/clarity/SKILL.md`) | S0 | Refuse; loki depends on it. Point to `npx skills add addyosmani/clarity`. |
 | No `dump.md` | S0 | Refuse; offer to interview for one. |
 | Blueprint incomplete — no frozen storyline, or a `visual:` row without spec/CSV/hero candidates | S1 | **COMPOSE:** loki-mobius first when reference files are present (roles confirmed with the human), then loki-storyline (its dump gate may interrogate the human — the only other pre-gate interaction), then loki-exhibit ∥ loki-figure phase A as parallel subagents. |
 | Blueprint complete, triage not closed | S2 | Open/resume the **TRIAGE GATE**. |
@@ -63,8 +64,12 @@ First match wins:
 ## The triage packet (what the human closes)
 
 1. **The ladder read** — titles only, connectives inline, exactly as a
-   skeptic sees it. This is the highest-leverage two minutes in the pipeline.
-2. **Exhibit digest** — one line per exhibit (message → form → emphasis),
+   skeptic sees it, after storyline's clarity pass. Any `[TK]` clarity
+   raised is listed here as an open item: the human supplies the fact or
+   the title stays plainer. This is the highest-leverage two minutes in the
+   pipeline.
+2. **Exhibit digest** — one line per exhibit (message → form → emphasis →
+   clarity-edited kicker and annotation),
    full spec + CSV attached underneath. Claims get reviewed *with* their
    evidence, because approving a title while its data sits unread is how
    BLOCKED runs happen later.

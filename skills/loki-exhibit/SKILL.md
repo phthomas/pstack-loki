@@ -17,6 +17,7 @@ to exist, so nobody noticed it didn't.
 - **Output:** `exhibits/E##.spec.md` + `data/E##.csv` per exhibit.
 - **Gate:** every spec names its message, form, data, and passes the
   neutrality test (below) — on paper, before build.
+- **Depends on:** the `clarity` skill, for the words on the chart (Step 3b).
 
 ## Step 1 — One message per exhibit
 
@@ -75,6 +76,26 @@ file: data/E##.csv        # the ONLY numbers allowed on the slide
 dual axes · 3D · rainbow palettes · pie >3 slices · smoothing that hides
 reversals · undisclosed axis truncation
 ```
+
+## Step 3b — Clarity pass on chart words
+
+The kicker and the key-datum annotation are the only prose a chart carries,
+and readers hit them before the axes. Write them into the spec as literal
+strings (`kicker: "..."`, `annotation: "..."`), then invoke **clarity** in
+**rewrite** mode on ALL specs' kickers and annotations together, in slide
+order, with the frozen title ladder as context:
+
+- **Medium:** speech, talk, slides. **Register:** Argument.
+- Each string must prove its own title in the ladder's terms — same nouns,
+  same units, no synonym drift between title, kicker, and annotation.
+- Numbers and units are untouchable: every figure must still equal a CSV cell.
+- ≤8 words each; clarity marks `[TK]` rather than invent a qualifier.
+
+Axis labels, units, and source lines are reference text — exact and
+consistent beats readable; clarity does not touch them.
+
+Because kickers and annotations live in the spec, they are claims: the
+human reads them at triage, and build renders them verbatim.
 
 ## Step 4 — The neutrality test
 
